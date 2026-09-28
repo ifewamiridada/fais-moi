@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Paste your plan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Instrument Sans',system-ui,sans-serif;color:#2B0A0E;background:#FCF3F1}
+button{font:inherit;cursor:pointer}
+a{color:#B0121F}a:hover{color:#5A0E18}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FCF3F1; box-sizing: border-box; padding: 56px 20px 24px; display: flex; flex-direction: column; gap: 18px">
+
+<div style="display: flex; justify-content: space-between; align-items: center">
+<a href="NewPlan.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 50%; background: #F6C3CC; display: flex; align-items: center; justify-content: center; color: #2B0A0E"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a>
+<div style="display: flex; gap: 6px; align-items: center">
+<span style="width: 6px; height: 6px; border-radius: 3px; background: #B0121F"></span>
+<span style="width: 22px; height: 6px; border-radius: 3px; background: #B0121F"></span>
+<span style="width: 6px; height: 6px; border-radius: 3px; background: #E7B4BD"></span>
+</div>
+<div style="width: 44px"></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-family: Fraunces, serif; font-weight: 900; font-size: 34px; line-height: 1.02; letter-spacing: -0.6px; color: #5A0E18">Bring your<br>plan back.</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #7D4B52">Paste whatever ChatGPT gave you. Messy is fine — you'll check everything before it goes live.</p>
+</div>
+
+<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+<li style="background: #FBE3E7; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #7D4B52">1</span><span style="font-size: 13px; font-weight: 600; color: #5A0E18">Prompt copied</span></li>
+<li style="background: #FBE3E7; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #7D4B52">2</span><span style="font-size: 13px; font-weight: 600; color: #5A0E18">ChatGPT wrote it</span></li>
+<li style="background: #2B0A0E; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #E7B4BD">3</span><span style="font-size: 13px; font-weight: 600; color: #FCF3F1">Paste here</span></li>
+</ol>
+
+<div style="position: relative; flex-grow: 1; background: #2B0A0E; border-radius: 22px; padding: 16px; box-sizing: border-box; overflow: hidden; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: #E7B4BD">Pasted · 214 lines</span>
+<span style="font-size: 12px; font-weight: 600; background: #E4E69A; color: #2B0A0E; border-radius: 999px; padding: 4px 10px">fais-moi v1</span>
+</div>
+<pre style="margin: 0; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; line-height: 1.6; color: #F6C3CC; white-space: pre-wrap">"plan": "30-Day PCOS Wellness",
+"start": "2026-09-28",
+"days": 30,
+"notifs": [
+  <span style="color: #FCF3F1">"title": "Breakfast",</span>
+  <span style="color: #FCF3F1">"time": "08:00",</span>
+  <span style="color: #FCF3F1">"repeat": "daily",</span>
+  "messages": [
+    "Start with a protein-rich
+     breakfast.",
+    "Eggs, beans or yoghurt —
+     pick one before 9.",
+    …</pre>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: linear-gradient(rgba(43,10,14,0), #2B0A0E)"></div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<button style="height: 48px; border-radius: 24px; border: 1.5px solid #2B0A0E; background: transparent; color: #2B0A0E; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1"/></svg>Paste again</button>
+<button style="height: 48px; border-radius: 24px; border: 1.5px solid #2B0A0E; background: transparent; color: #2B0A0E; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>Upload file</button>
+</div>
+
+<a href="Review.dc.html" style="height: 56px; border-radius: 28px; background: #B0121F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-weight: 600; font-size: 16px">Read my plan<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

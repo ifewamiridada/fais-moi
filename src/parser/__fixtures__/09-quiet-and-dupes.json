@@ -1,0 +1,13 @@
+{
+  "format": "fais-moi/1",
+  "plan": "Night owl",
+  "start": "2026-09-28",
+  "days": 7,
+  "limits": { "quiet": "22:30-06:30" },
+  "notifs": [
+    { "id": "journal", "title": "Journal", "at": "23:15", "on": "daily", "messages": ["Three lines about today."] },
+    { "id": "journal", "title": "Gratitude", "at": "21:00", "on": "daily", "messages": ["One thing you're grateful for."] },
+    { "id": "early", "title": "Early walk", "at": "05:45", "on": "weekends", "messages": ["Walk before the heat."] },
+    { "id": "empty", "title": "Mystery", "at": "12:00", "on": "daily", "messages": [] }
+  ]
+}

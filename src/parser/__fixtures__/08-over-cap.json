@@ -1,0 +1,17 @@
+{
+  "format": "fais-moi/1",
+  "plan": "30-Day PCOS Wellness",
+  "start": "2026-09-28",
+  "days": 30,
+  "limits": { "per_day": 6, "quiet": "22:30-06:30" },
+  "notifs": [
+    { "id": "breakfast", "title": "Breakfast", "at": "08:00", "on": "daily", "messages": ["a"] },
+    { "id": "hydration", "title": "Hydration", "at": "11:00", "on": "daily", "optional": true, "messages": ["b"] },
+    { "id": "lunch", "title": "Lunch check", "at": "13:00", "on": "daily", "messages": ["c"] },
+    { "id": "move", "title": "Movement", "at": "18:00", "on": "daily", "messages": ["d"] },
+    { "id": "reset", "title": "Mental reset", "at": "20:30", "on": "daily", "messages": ["e"] },
+    { "id": "faith", "title": "Faith grounding", "at": "21:00", "on": "daily", "priority": "critical", "messages": ["f"] },
+    { "id": "meal-prep", "title": "Meal prep day", "at": "10:00", "on": "sat", "messages": ["g"] },
+    { "id": "family-call", "title": "Call home", "at": "16:00", "on": "sun", "messages": ["h"] }
+  ]
+}

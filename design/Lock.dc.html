@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lock screen notification</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&amp;family=Instrument+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Instrument Sans',system-ui,sans-serif;color:#2B0A0E;background:#5A0E18}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #5A0E18">
+<svg width="390" height="844" viewBox="0 0 390 844" aria-hidden="true" style="position: absolute; left: 0; top: 0"><g fill="none" stroke="#7A0F1B" stroke-width="40" stroke-linecap="round"><path d="M10 -40 C60 140 -40 280 10 420 S60 700 10 890"/><path d="M100 -40 C150 140 50 280 100 420 S150 700 100 890"/><path d="M190 -40 C240 140 140 280 190 420 S240 700 190 890"/><path d="M280 -40 C330 140 230 280 280 420 S330 700 280 890"/><path d="M370 -40 C420 140 320 280 370 420 S420 700 370 890"/></g></svg>
+
+<div style="position: absolute; left: 0; right: 0; top: 96px; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #FBE3E7">
+<span style="font-size: 17px; font-weight: 600">Monday 28 September</span>
+<span style="font-size: 96px; font-weight: 600; line-height: 1; letter-spacing: -3px">1:00</span>
+</div>
+
+<div style="position: absolute; left: 12px; right: 12px; bottom: 120px; display: flex; flex-direction: column; gap: 8px">
+
+<div style="background: rgba(252,243,241,0.94); border-radius: 22px; padding: 14px 14px 12px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 12px; align-items: flex-start">
+<div style="width: 38px; height: 38px; flex-shrink: 0; border-radius: 10px; background: #B0121F; display: flex; align-items: center; justify-content: center; font-family: Fraunces, serif; font-weight: 900; font-size: 18px; color: #FCF3F1">f.</div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 1px">
+<div style="display: flex; justify-content: space-between"><span style="font-size: 12px; font-weight: 600; color: #7D4B52">WELLNESS RESET</span><span style="font-size: 12px; color: #7D4B52">now</span></div>
+<span style="font-weight: 700; font-size: 15px">Lunch check</span>
+<span style="font-size: 15px; line-height: 1.35">Aim for protein + fibre + something colourful.</span>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+<button style="height: 44px; border-radius: 12px; border: 0; background: #2B0A0E; color: #FCF3F1; font-weight: 600; font-size: 14px">Done</button>
+<button style="height: 44px; border-radius: 12px; border: 0; background: #F6C3CC; color: #2B0A0E; font-weight: 600; font-size: 14px">In 30 min</button>
+<button style="height: 44px; border-radius: 12px; border: 0; background: #F6C3CC; color: #2B0A0E; font-weight: 600; font-size: 14px">Skip today</button>
+</div>
+</div>
+
+<div style="background: rgba(252,243,241,0.86); border-radius: 22px; padding: 14px; display: flex; gap: 12px; align-items: flex-start">
+<div style="width: 38px; height: 38px; flex-shrink: 0; border-radius: 10px; background: #B0121F; display: flex; align-items: center; justify-content: center; font-family: Fraunces, serif; font-weight: 900; font-size: 18px; color: #FCF3F1">f.</div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 1px">
+<div style="display: flex; justify-content: space-between"><span style="font-size: 12px; font-weight: 600; color: #7D4B52">WELLNESS RESET</span><span style="font-size: 12px; color: #7D4B52">2h ago</span></div>
+<span style="font-weight: 700; font-size: 15px">Hydration check</span>
+<span style="font-size: 15px; line-height: 1.35">Take a moment to drink some water.</span>
+</div>
+</div>
+
+<div style="margin: -14px 14px 0; height: 16px; border-radius: 0 0 18px 18px; background: rgba(252,243,241,0.6)"></div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

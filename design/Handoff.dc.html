@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The AI to app handoff</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Instrument Sans',system-ui,sans-serif;color:#2B0A0E;background:#FCF3F1}
+a{color:#B0121F}a:hover{color:#5A0E18}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1000px; box-sizing: border-box; padding: 64px 72px; background: #FCF3F1; display: flex; flex-direction: column; gap: 36px">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h1 style="margin: 0; font-family: Fraunces, serif; font-weight: 900; font-size: 64px; line-height: 1; letter-spacing: -1.5px; color: #5A0E18">The handoff.</h1>
+<p style="margin: 0; font-size: 20px; color: #7D4B52">Plans come in as rules, not rows. The phone does the scheduling.</p>
+</div>
+<div style="display: flex; gap: 10px; align-items: center; font-size: 15px; font-weight: 600; color: #5A0E18">
+<span style="background: #F6C3CC; border-radius: 999px; padding: 8px 16px">Goal</span><span>→</span>
+<span style="background: #F6C3CC; border-radius: 999px; padding: 8px 16px">ChatGPT</span><span>→</span>
+<span style="background: #F6C3CC; border-radius: 999px; padding: 8px 16px">Paste</span><span>→</span>
+<span style="background: #B0121F; color: #FFFFFF; border-radius: 999px; padding: 8px 16px">Notifications</span><span>→</span>
+<span style="background: #F6C3CC; border-radius: 999px; padding: 8px 16px">Adjust</span>
+</div>
+</div>
+
+<div style="flex-grow: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px">
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 10px; align-items: baseline"><span style="font-family: Fraunces, serif; font-weight: 900; font-size: 28px; color: #B0121F">01</span><span style="font-size: 18px; font-weight: 600">The prompt fais-moi writes for you</span></div>
+<div style="flex-grow: 1; background: #FFFFFF; border: 1px solid #F1D3D8; border-radius: 24px; padding: 24px; font-size: 15px; line-height: 1.55; color: #2B0A0E; white-space: pre-line">Create my notification plan in fais-moi format.
+
+<b>Goal:</b> Manage my PCOS and eat better.
+<b>Length:</b> 30 days from Mon 28 Sep 2026.
+<b>My day:</b> awake 06:30–22:30, work 07:00–16:00.
+<b>Limit:</b> no more than 6 reminders a day.
+<b>Also:</b> meal prep on Saturdays, Bible affirmations at night, gentle tone.
+
+<b>Rules</b>
+– Reply with ONE json code block, nothing else.
+– Follow the schema below exactly.
+– Write a different message for each day a reminder fires, up to 30, so none feel stale.
+– Messages under 90 characters. 24-hour times.
+
+<span style="color: #7D4B52">[fais-moi format v1 schema — attached automatically]</span></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 10px; align-items: baseline"><span style="font-family: Fraunces, serif; font-weight: 900; font-size: 28px; color: #B0121F">02</span><span style="font-size: 18px; font-weight: 600">What ChatGPT sends back</span></div>
+<pre style="flex-grow: 1; margin: 0; background: #2B0A0E; border-radius: 24px; padding: 24px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 13px; line-height: 1.6; color: #F6C3CC; white-space: pre-wrap; overflow: hidden">{
+  "format": "fais-moi/1",
+  "plan": "30-Day PCOS Wellness",
+  "start": "2026-09-28",
+  "days": 30,
+  "tz": "Africa/Lagos",
+  "limits": { "per_day": 6,
+              "quiet": "22:30-06:30" },
+  "notifs": [
+    <span style="color: #FCF3F1">{
+      "id": "breakfast",
+      "title": "Breakfast",
+      "icon": "sun",
+      "at": "08:00",
+      "on": "daily",
+      "messages": [
+        "Start with a protein-rich breakfast.",
+        "Eggs, beans or yoghurt — pick one.",
+        "…28 more"
+      ]
+    },</span>
+    {
+      "id": "meal-prep",
+      "title": "Meal prep day",
+      "at": "10:00",
+      "on": "sat",
+      "messages": ["Prep lunches for the week."]
+    }
+  ]
+}</pre>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 10px; align-items: baseline"><span style="font-family: Fraunces, serif; font-weight: 900; font-size: 28px; color: #B0121F">03</span><span style="font-size: 18px; font-weight: 600">What fais-moi does with it</span></div>
+<div style="flex-grow: 1; background: #F6C3CC; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: #5A0E18">Validate</span>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 15px; line-height: 1.4">
+<span>✓ JSON, fais-moi format v1 — 7 notifs, 165 messages</span>
+<span>✓ Every time sits inside waking hours</span>
+<span style="color: #7A0A14; font-weight: 600">! Saturday has 7 notifs, limit is 6 → Hydration moved to weekdays</span>
+<span>✓ Unknown fields ignored, missing icons defaulted</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: #5A0E18">Not JSON?</span>
+<span style="font-size: 15px; line-height: 1.45">A forgiving reader picks up lines like “8:00 AM — Breakfast: …”. Anything it can't place is flagged for review, never guessed quietly.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: #5A0E18">Schedule</span>
+<span style="font-size: 15px; line-height: 1.45">Rules expand on the phone into dated notifications. Day 12 of Breakfast gets message 12. Only the next ~60 are handed to the OS at once; the rest are topped up whenever the app wakes.</span>
+</div>
+<div style="margin-top: auto; background: #2B0A0E; color: #FCF3F1; border-radius: 16px; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 15px">7 rules become</span>
+<span style="font-family: Fraunces, serif; font-weight: 900; font-size: 32px; color: #F6C3CC">176 notifs</span>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

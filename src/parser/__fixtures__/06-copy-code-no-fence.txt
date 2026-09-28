@@ -1,0 +1,12 @@
+json
+Copy code
+{
+  "format": "fais-moi/1",
+  "plan": "Hydration habit",
+  "start": "2026-09-28",
+  "days": 14,
+  "notifs": [
+    { "id": "water-am", "title": "Water", "icon": "drop", "at": "09:00", "on": "daily", "messages": ["First glass of the day."] },
+    { "id": "water-pm", "title": "Water", "icon": "drop", "at": "15:00", "on": "daily", "messages": ["Afternoon glass."] }
+  ]
+}

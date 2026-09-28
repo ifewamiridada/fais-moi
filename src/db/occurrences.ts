@@ -5,6 +5,8 @@ import { ValidationError, type Db, type Occurrence, type OccurrenceState } from 
 interface OccurrenceRow {
   id: number;
   notif_id: number;
+  kind: Occurrence['kind'];
+  parent_id: number | null;
   fire_at: number;
   local_date: string;
   message_index: number;
@@ -16,6 +18,8 @@ interface OccurrenceRow {
 const toOccurrence = (r: OccurrenceRow): Occurrence => ({
   id: r.id,
   notifId: r.notif_id,
+  kind: r.kind,
+  parentId: r.parent_id,
   fireAt: r.fire_at,
   localDate: r.local_date,
   messageIndex: r.message_index,
@@ -31,12 +35,14 @@ export interface OccurrenceView extends Occurrence {
   title: string;
   icon: Icon;
   priority: 'silent' | 'gentle' | 'critical';
+  optional: boolean;
+  onMiss: 'none' | 'nudge_once';
   /** messages[messageIndex % messages.length] */
   message: string;
 }
 
 const VIEW = `
-  SELECT o.*, n.plan_id, n.title, n.icon, n.priority, n.messages_json, p.title AS plan_title
+  SELECT o.*, n.plan_id, n.title, n.icon, n.priority, n.optional, n.on_miss, n.messages_json, p.title AS plan_title
   FROM occurrence o
   JOIN notif n ON n.id = o.notif_id
   JOIN plan p ON p.id = n.plan_id`;
@@ -47,6 +53,8 @@ type ViewRow = OccurrenceRow & {
   title: string;
   icon: Icon;
   priority: OccurrenceView['priority'];
+  optional: number;
+  on_miss: OccurrenceView['onMiss'];
   messages_json: string;
 };
 
@@ -59,6 +67,8 @@ function toView(r: ViewRow): OccurrenceView {
     title: r.title,
     icon: r.icon,
     priority: r.priority,
+    optional: r.optional === 1,
+    onMiss: r.on_miss,
     message: messages.length ? messages[r.message_index % messages.length]! : '',
   };
 }
@@ -78,13 +88,25 @@ export async function upsertOccurrence(db: Db, o: NewOccurrence): Promise<Occurr
   check.isoDate(o.localDate, 'localDate');
   await db.runAsync(
     `INSERT INTO occurrence (notif_id, fire_at, local_date, message_index) VALUES (?, ?, ?, ?)
-     ON CONFLICT (notif_id, fire_at) DO UPDATE SET message_index = excluded.message_index, local_date = excluded.local_date`,
+     ON CONFLICT (notif_id, fire_at) DO UPDATE SET message_index = excluded.message_index, local_date = excluded.local_date
+     WHERE kind = 'main'`,
     [o.notifId, o.fireAt, o.localDate, o.messageIndex],
   );
   const row = await db.getFirstAsync<OccurrenceRow>('SELECT * FROM occurrence WHERE notif_id = ? AND fire_at = ?', [
     o.notifId,
     o.fireAt,
   ]);
+  return toOccurrence(row!);
+}
+
+/** "In 30 min": a one-off copy of `parent` (a main occurrence) at `fireAt`. */
+export async function addSnooze(db: Db, parent: Occurrence, fireAt: number): Promise<Occurrence> {
+  if (parent.kind !== 'main') throw new ValidationError('A snooze must point at a main occurrence');
+  const r = await db.runAsync(
+    `INSERT INTO occurrence (notif_id, fire_at, local_date, message_index, kind, parent_id) VALUES (?, ?, ?, ?, 'snooze', ?)`,
+    [parent.notifId, fireAt, parent.localDate, parent.messageIndex, parent.id],
+  );
+  const row = await db.getFirstAsync<OccurrenceRow>('SELECT * FROM occurrence WHERE id = ?', [r.lastInsertRowId]);
   return toOccurrence(row!);
 }
 
@@ -102,9 +124,9 @@ export async function listOccurrencesBetween(db: Db, from: number, to: number): 
   return rows.map(toView);
 }
 
-/** Today's timeline across plans (done ones included, for fading). */
+/** Today's timeline across plans (done ones included, for fading). Snooze rows are folded into their main occurrence. */
 export async function listOccurrencesOn(db: Db, localDate: string): Promise<OccurrenceView[]> {
-  const rows = await db.getAllAsync<ViewRow>(`${VIEW} WHERE o.local_date = ? ORDER BY o.fire_at, o.id`, [
+  const rows = await db.getAllAsync<ViewRow>(`${VIEW} WHERE o.local_date = ? AND o.kind = 'main' ORDER BY o.fire_at, o.id`, [
     check.isoDate(localDate, 'localDate'),
   ]);
   return rows.map(toView);
@@ -132,7 +154,7 @@ export async function setOsNotificationId(db: Db, id: number, osId: string | nul
 
 /** After cancelling every OS notification: nothing is scheduled any more. */
 export async function clearOsNotificationIds(db: Db): Promise<void> {
-  await db.runAsync('UPDATE occurrence SET os_notification_id = NULL WHERE os_notification_id IS NOT NULL');
+  await db.runAsync('UPDATE occurrence SET os_notification_id = NULL WHERE os_notification_id IS NOT NULL', []);
 }
 
 /** Pending occurrences that fired before `before` with no action become missed. Returns how many. */
@@ -142,11 +164,16 @@ export async function markMissed(db: Db, before: number): Promise<number> {
 }
 
 /**
- * Drops future occurrences nobody has acted on, so reconcile() can rebuild the
- * window after an edit (a changed time or a disabled notif leaves no stale rows).
+ * Drops future rule-generated occurrences nobody has acted on, except `keep` (the
+ * ones reconcile() just confirmed), so a changed time or a disabled notif leaves no
+ * stale rows. Snoozes are kept.
  */
-export async function deletePendingFrom(db: Db, from: number): Promise<number> {
-  const r = await db.runAsync(`DELETE FROM occurrence WHERE state = 'pending' AND fire_at >= ?`, [from]);
+export async function deletePendingFrom(db: Db, from: number, keep: number[] = []): Promise<number> {
+  const r = await db.runAsync(
+    `DELETE FROM occurrence WHERE state = 'pending' AND kind = 'main' AND fire_at >= ?
+       AND id NOT IN (SELECT value FROM json_each(?))`,
+    [from, JSON.stringify(keep)],
+  );
   return r.changes;
 }
 
@@ -173,7 +200,8 @@ const TALLY = `
  */
 export async function planHistory(db: Db, planId: number, fromDate: string, toDate: string): Promise<History> {
   const range = [planId, check.isoDate(fromDate, 'fromDate'), check.isoDate(toDate, 'toDate')];
-  const where = 'FROM occurrence o JOIN notif n ON n.id = o.notif_id WHERE n.plan_id = ? AND o.local_date BETWEEN ? AND ?';
+  const where =
+    "FROM occurrence o JOIN notif n ON n.id = o.notif_id WHERE o.kind = 'main' AND n.plan_id = ? AND o.local_date BETWEEN ? AND ?";
   const num = (t: Record<string, unknown>): Tally => ({
     done: Number(t.done ?? 0),
     snoozed: Number(t.snoozed ?? 0),

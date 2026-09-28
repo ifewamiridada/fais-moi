@@ -62,6 +62,10 @@ export const MIGRATIONS: string[] = [
     value TEXT NOT NULL
   );
   `,
+  /* 2 — snoozes are their own rows, linked to the occurrence they came from */ `
+  ALTER TABLE occurrence ADD COLUMN kind TEXT NOT NULL DEFAULT 'main' CHECK (kind IN ('main', 'snooze'));
+  ALTER TABLE occurrence ADD COLUMN parent_id INTEGER NULL REFERENCES occurrence(id) ON DELETE CASCADE;
+  `,
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS.length;
@@ -69,7 +73,7 @@ export const SCHEMA_VERSION = MIGRATIONS.length;
 /** Opens the connection for use: foreign keys on, WAL, then any pending migrations. */
 export async function migrate(db: Db): Promise<number> {
   await db.execAsync('PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL;');
-  const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
+  const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version', []);
   const from = row?.user_version ?? 0;
   if (from > SCHEMA_VERSION) {
     throw new Error(`Database is at schema v${from}, newer than this app (v${SCHEMA_VERSION}).`);

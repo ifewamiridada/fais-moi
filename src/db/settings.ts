@@ -12,7 +12,7 @@ export const DEFAULT_SETTINGS: Settings = {
 
 /** Stored as one JSON value per key, so adding a setting never needs a migration. */
 export async function getSettings(db: Db): Promise<Settings> {
-  const rows = await db.getAllAsync<{ key: string; value: string }>('SELECT key, value FROM settings');
+  const rows = await db.getAllAsync<{ key: string; value: string }>('SELECT key, value FROM settings', []);
   const out: Settings = { ...DEFAULT_SETTINGS };
   for (const { key, value } of rows) {
     if (key in DEFAULT_SETTINGS) (out as unknown as Record<string, unknown>)[key] = JSON.parse(value);

@@ -85,7 +85,7 @@ export async function getPlan(db: Db, id: number): Promise<Plan | null> {
 export async function listPlans(db: Db, status?: PlanStatus): Promise<Plan[]> {
   const rows = status
     ? await db.getAllAsync<PlanRow>('SELECT * FROM plan WHERE status = ? ORDER BY created_at DESC, id DESC', [status])
-    : await db.getAllAsync<PlanRow>('SELECT * FROM plan ORDER BY created_at DESC, id DESC');
+    : await db.getAllAsync<PlanRow>('SELECT * FROM plan ORDER BY created_at DESC, id DESC', []);
   return rows.map(toPlan);
 }
 

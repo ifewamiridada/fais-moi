@@ -58,10 +58,11 @@ async function startClean() {
 describe('migrate', () => {
   it('creates the schema once and is safe to re-run', async () => {
     expect(await migrate(db)).toBe(SCHEMA_VERSION);
-    const v = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
+    const v = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version', []);
     expect(v?.user_version).toBe(SCHEMA_VERSION);
     const tables = await db.getAllAsync<{ name: string }>(
       "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name",
+      [],
     );
     expect(tables.map((t) => t.name)).toEqual(['notif', 'occurrence', 'plan', 'settings']);
   });
@@ -196,6 +197,7 @@ describe('plans', () => {
     await deletePlan(db, plan.id);
     const counts = await db.getFirstAsync<{ n: number; o: number }>(
       'SELECT (SELECT COUNT(*) FROM notif) AS n, (SELECT COUNT(*) FROM occurrence) AS o',
+      [],
     );
     expect(counts).toEqual({ n: 0, o: 0 });
   });
@@ -253,7 +255,7 @@ describe('occurrences', () => {
     await setOccurrenceState(db, b.id, 'done', NOW + 12 * 60_000);
     const again = await upsertOccurrence(db, { notifId: breakfast.id, fireAt: NOW, localDate: '2026-09-28', messageIndex: 4 });
     expect(again).toMatchObject({ id: b.id, state: 'done', actedAt: NOW + 12 * 60_000 });
-    const count = await db.getFirstAsync<{ c: number }>('SELECT COUNT(*) AS c FROM occurrence');
+    const count = await db.getFirstAsync<{ c: number }>('SELECT COUNT(*) AS c FROM occurrence', []);
     expect(count?.c).toBe(3);
   });
 

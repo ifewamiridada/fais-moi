@@ -8,9 +8,9 @@ export type Bind = string | number | null;
  */
 export interface Db {
   execAsync(sql: string): Promise<void>;
-  runAsync(sql: string, params?: Bind[]): Promise<{ lastInsertRowId: number; changes: number }>;
-  getFirstAsync<T>(sql: string, params?: Bind[]): Promise<T | null>;
-  getAllAsync<T>(sql: string, params?: Bind[]): Promise<T[]>;
+  runAsync(sql: string, params: Bind[]): Promise<{ lastInsertRowId: number; changes: number }>;
+  getFirstAsync<T>(sql: string, params: Bind[]): Promise<T | null>;
+  getAllAsync<T>(sql: string, params: Bind[]): Promise<T[]>;
   withTransactionAsync(task: () => Promise<void>): Promise<void>;
 }
 
@@ -44,6 +44,9 @@ export type OccurrenceState = 'pending' | 'done' | 'snoozed' | 'skipped' | 'miss
 export interface Occurrence {
   id: number;
   notifId: number;
+  /** main = generated from the notif's rule; snooze = "In 30 min", pointing at its main occurrence. */
+  kind: 'main' | 'snooze';
+  parentId: number | null;
   fireAt: number;
   /** Plan-local date the occurrence belongs to (YYYY-MM-DD). */
   localDate: string;

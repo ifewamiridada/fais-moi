@@ -2,7 +2,7 @@
 
 All data stays on the device in SQLite. The repositories take a `Db`, which is the part of expo-sqlite's `SQLiteDatabase` they use (`execAsync`, `runAsync`, `getFirstAsync`, `getAllAsync`, `withTransactionAsync`). That means:
 
-- **In the app:** pass `await SQLite.openDatabaseAsync('fais-moi.db')`. This gets wired up with the Expo app in step 3.
+- **In the app:** `getDb()` in `src/app/runtime.ts` opens `fais-moi.db` with expo-sqlite and migrates it.
 - **In tests:** `__tests__/nodeDb.ts` adapts Node's built-in `node:sqlite`, so the tests run on real SQLite with no native build.
 
 Call `migrate(db)` once at startup. It turns on foreign keys and WAL, then applies any migrations still to run. The version is stored in `PRAGMA user_version`. `MIGRATIONS` is append-only: never edit a migration that has shipped, add a new one.
@@ -16,6 +16,7 @@ The brief's data model, plus what the designs need:
 | `plan` | As in the brief. Adds `quiet_until` ("Quiet till 6") and `skipped_date` ("Skip today"). `weekend_start` backs "Weekends start at 9:00". |
 | `notif` | Adds `key`, the import id (`breakfast`), unique per plan. It is kept for Adjust with ChatGPT and the diff. `at` may be NULL only while the notif is off (a CHECK enforces this). |
 | `occurrence` | Adds `local_date`, the plan-local day, for Today and the 7-day strip. Rows are UNIQUE on (notif, fire_at), so `reconcile()` can upsert the same window again without losing states. |
+| `occurrence` (migration 2) | `kind` (`main` or `snooze`) and `parent_id`: an "In 30 min" snooze is its own row pointing at the occurrence it came from. Today and the history counts use main rows only. |
 | `settings` | The Quiet tab's global rules plus first-run state, stored as key → JSON. Adding a setting needs no migration. |
 
 Instants (`fire_at`, `paused_until`, `created_at`, …) are epoch ms. Dates and times are wall-clock in the plan's `tz`.

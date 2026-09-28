@@ -2,8 +2,8 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { AppState } from 'react-native';
-import { registerBackgroundWork } from '../src/app/background';
-import { processLastResponse, runReconcile } from '../src/app/runtime';
+import { registerBackgroundWork } from '../src/platform/background';
+import { processLastResponse, runReconcile } from '../src/platform/runtime';
 
 export default function RootLayout() {
   useEffect(() => {

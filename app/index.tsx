@@ -10,7 +10,7 @@ import { createPlan, deletePlan, listOccurrencesOn, listPlans, type OccurrenceVi
 import { todayIn } from '../src/parser/dates';
 import { parsePlan } from '../src/parser';
 import { permissionStatus, requestPermission } from '../src/notify/expo';
-import { getDb, runReconcile } from '../src/app/runtime';
+import { getDb, runReconcile } from '../src/platform/runtime';
 import { wallClock } from '../src/scheduler/tz';
 
 const C = {

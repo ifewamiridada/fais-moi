@@ -2,7 +2,7 @@
 
 All data stays on the device in SQLite. The repositories take a `Db`, which is the part of expo-sqlite's `SQLiteDatabase` they use (`execAsync`, `runAsync`, `getFirstAsync`, `getAllAsync`, `withTransactionAsync`). That means:
 
-- **In the app:** `getDb()` in `src/app/runtime.ts` opens `fais-moi.db` with expo-sqlite and migrates it.
+- **In the app:** `getDb()` in `src/platform/runtime.ts` opens `fais-moi.db` with expo-sqlite and migrates it.
 - **In tests:** `__tests__/nodeDb.ts` adapts Node's built-in `node:sqlite`, so the tests run on real SQLite with no native build.
 
 Call `migrate(db)` once at startup. It turns on foreign keys and WAL, then applies any migrations still to run. The version is stored in `PRAGMA user_version`. `MIGRATIONS` is append-only: never edit a migration that has shipped, add a new one.

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plan controls</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&amp;family=Instrument+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Instrument Sans',system-ui,sans-serif;color:#2B0A0E;background:#FCF3F1}
+button{font:inherit;cursor:pointer}
+a{color:#B0121F}a:hover{color:#5A0E18}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FCF3F1; box-sizing: border-box; padding: 56px 20px 24px; display: flex; flex-direction: column; gap: 18px">
+
+<div style="display: flex; justify-content: space-between; align-items: center">
+<a href="Main.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 50%; background: #F6C3CC; display: flex; align-items: center; justify-content: center; color: #2B0A0E"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a>
+<a href="Review.dc.html" style="height: 44px; padding: 0 16px; border-radius: 22px; background: #F6C3CC; color: #2B0A0E; display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; font-size: 14px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>Edit notifs</a>
+</div>
+
+<div style="position: relative; overflow: hidden; background: #F6C3CC; border-radius: 28px; padding: 20px; height: 196px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between">
+<svg width="170" height="196" viewBox="0 0 170 196" aria-hidden="true" style="position: absolute; right: -14px; top: 0"><g fill="none" stroke="#EFA9B6" stroke-width="18" stroke-linecap="round"><path d="M30 -20 C60 30 0 80 30 120 S60 190 30 230"/><path d="M80 -20 C110 30 50 80 80 120 S110 190 80 230"/><path d="M130 -20 C160 30 100 80 130 120 S160 190 130 230"/></g></svg>
+<div style="position: relative; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: #5A0E18">Wellness reset</span>
+<span style="font-family: Fraunces, serif; font-weight: 900; font-size: 44px; line-height: 1; letter-spacing: -1px; color: #5A0E18">Day 12<span style="font-weight: 600; font-size: 24px"> of 30</span></span>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 8px">
+<div style="height: 8px; border-radius: 4px; background: #FCF3F1; overflow: hidden"><div style="width: 40%; height: 8px; border-radius: 4px; background: #B0121F"></div></div>
+<span style="font-size: 13px; color: #5A0E18">7 notifs · ends Tue 27 Oct</span>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<button style="height: 72px; border-radius: 18px; border: 0; background: #2B0A0E; color: #FCF3F1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 13px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5v14M15 5v14"/></svg>Pause plan</button>
+<button style="height: 72px; border-radius: 18px; border: 1.5px solid #2B0A0E; background: transparent; color: #2B0A0E; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 13px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5l9 7-9 7z"/><path d="M18 5v14"/></svg>Skip today</button>
+<button style="height: 72px; border-radius: 18px; border: 1.5px solid #2B0A0E; background: transparent; color: #2B0A0E; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 13px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>Quiet till 6</button>
+</div>
+
+<ul style="margin: 0; padding: 0; list-style: none; background: #FFFFFF; border: 1px solid #F1D3D8; border-radius: 20px">
+<li style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid #F6E1E4"><span style="font-size: 15px">Most a day</span><span style="font-weight: 600; font-size: 15px">6</span></li>
+<li style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid #F6E1E4"><span style="font-size: 15px">Quiet hours</span><span style="font-weight: 600; font-size: 15px">10:30 PM – 6:30 AM</span></li>
+<li style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid #F6E1E4"><span style="font-size: 15px">Weekends</span><span style="font-weight: 600; font-size: 15px">Start at 9:00 AM</span></li>
+<li style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px"><span style="font-size: 15px">Missed a notif</span><span style="font-weight: 600; font-size: 15px">Nudge once</span></li>
+</ul>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 13px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: #7D4B52">Last 7 days</span><span style="font-size: 13px; color: #7D4B52">31 done · 6 snoozed · 5 skipped</span></div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px">
+<div style="height: 36px; border-radius: 10px; background: #B0121F"></div>
+<div style="height: 36px; border-radius: 10px; background: #B0121F"></div>
+<div style="height: 36px; border-radius: 10px; background: #D9606D"></div>
+<div style="height: 36px; border-radius: 10px; background: #B0121F"></div>
+<div style="height: 36px; border-radius: 10px; background: #F6C3CC"></div>
+<div style="height: 36px; border-radius: 10px; background: #D9606D"></div>
+<div style="height: 36px; border-radius: 10px; background: #B0121F"></div>
+</div>
+</div>
+
+<button style="margin-top: auto; height: 56px; border-radius: 28px; border: 0; background: #B0121F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; font-size: 16px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>Adjust with ChatGPT</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Welcome</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&amp;family=Instrument+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Instrument Sans',system-ui,sans-serif;color:#2B0A0E;background:#FCF3F1}
+button{font:inherit;cursor:pointer}
+a{color:#B0121F}a:hover{color:#5A0E18}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FCF3F1; display: flex; flex-direction: column">
+
+<div style="position: relative; height: 380px; flex-shrink: 0; overflow: hidden; background: #F6C3CC; display: flex; align-items: center; justify-content: center">
+<svg width="390" height="380" viewBox="0 0 390 380" aria-hidden="true" style="position: absolute; left: 0; top: 0"><g fill="none" stroke="#7A0A14" stroke-width="30" stroke-linecap="round"><path d="M20 -30 C60 70 -20 160 20 250 S60 360 20 420"></path><path d="M100 -30 C140 70 60 160 100 250 S140 360 100 420"></path><path d="M180 -30 C220 70 140 160 180 250 S220 360 180 420"></path><path d="M260 -30 C300 70 220 160 260 250 S300 360 260 420"></path><path d="M340 -30 C380 70 300 160 340 250 S380 360 340 420"></path></g></svg>
+<div style="position: relative; width: 310px; background: rgba(252,243,241,0.96); border-radius: 22px; padding: 14px; display: flex; gap: 12px; align-items: flex-start">
+<div style="width: 38px; height: 38px; flex-shrink: 0; border-radius: 10px; background: #B0121F; display: flex; align-items: center; justify-content: center; font-family: Fraunces, serif; font-weight: 900; font-size: 18px; color: #FCF3F1">f.</div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 1px">
+<div style="display: flex; justify-content: space-between"><span style="font-size: 12px; font-weight: 600; color: #7D4B52">YOUR PLAN</span><span style="font-size: 12px; color: #7D4B52">8:00 AM</span></div>
+<span style="font-weight: 700; font-size: 15px">Good morning</span>
+<span style="font-size: 15px; line-height: 1.35">Today's one thing: protein before 9.</span>
+</div>
+</div>
+</div>
+
+<div style="flex-grow: 1; box-sizing: border-box; padding: 28px 24px 28px; display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: Fraunces, serif; font-weight: 900; font-size: 26px; color: #5A0E18; letter-spacing: -0.5px">fais-moi.</div>
+<h1 style="margin: 0; font-family: Fraunces, serif; font-weight: 900; font-size: 36px; line-height: 1.02; letter-spacing: -0.8px; color: #2B0A0E">You make the plan.<br>We remember it.</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #7D4B52">fais-moi works by tapping you on the shoulder at the right moment, so it needs notifications. You choose how loud each one is, and quiet hours are on from day one.</p>
+<div style="display: flex; gap: 8px; align-items: center; font-size: 13px; color: #5A0E18">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+<span>Your plans stay on this phone. No account.</span>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 6px">
+<a href="Empty.dc.html" style="height: 56px; border-radius: 28px; background: #B0121F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: 600; font-size: 16px">Turn on notifications</a>
+<a href="Denied.dc.html" style="height: 44px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; color: #5A0E18">Not now</a>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

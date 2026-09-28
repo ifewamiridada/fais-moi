@@ -21,3 +21,4 @@ npm-debug.*
 # generated native folders (expo prebuild)
 /ios
 /android
+preview/dist/

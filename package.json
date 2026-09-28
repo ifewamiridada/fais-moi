@@ -8,7 +8,8 @@
     "android": "expo run:android",
     "test": "NODE_OPTIONS=--disable-warning=ExperimentalWarning vitest run",
     "test:watch": "NODE_OPTIONS=--disable-warning=ExperimentalWarning vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "preview": "node preview/build.mjs"
   },
   "dependencies": {
     "expo": "~57.0.25",
@@ -23,6 +24,7 @@
     "expo-task-manager": "~57.0.20",
     "json5": "^2.2.3",
     "react": "19.2.3",
+    "react-dom": "^19.2.3",
     "react-native": "0.86.3",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",
@@ -31,6 +33,9 @@
   "devDependencies": {
     "@types/node": "^22.20.4",
     "@types/react": "~19.2.2",
+    "@types/sql.js": "^1.4.11",
+    "esbuild": "^0.28.2",
+    "sql.js": "^1.14.2",
     "typescript": "~6.0.3",
     "vitest": "^3.2.4"
   },

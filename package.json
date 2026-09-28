@@ -1,0 +1,45 @@
+{
+  "name": "fais-moi",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo run:ios",
+    "android": "expo run:android",
+    "test": "NODE_OPTIONS=--disable-warning=ExperimentalWarning vitest run",
+    "test:watch": "NODE_OPTIONS=--disable-warning=ExperimentalWarning vitest",
+    "typecheck": "tsc --noEmit",
+    "preview": "node preview/build.mjs"
+  },
+  "dependencies": {
+    "expo": "~57.0.25",
+    "expo-background-task": "~57.0.20",
+    "expo-constants": "~57.0.19",
+    "expo-device": "~57.0.2",
+    "expo-linking": "~57.0.11",
+    "expo-notifications": "~57.0.21",
+    "expo-router": "~57.0.23",
+    "expo-sqlite": "~57.0.3",
+    "expo-status-bar": "~57.0.1",
+    "expo-task-manager": "~57.0.20",
+    "json5": "^2.2.3",
+    "react": "19.2.3",
+    "react-dom": "^19.2.3",
+    "react-native": "0.86.3",
+    "react-native-reanimated": "^4.5.1",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0",
+    "react-native-worklets": "^0.10.1",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "@types/react": "~19.2.2",
+    "@types/sql.js": "^1.4.11",
+    "esbuild": "^0.28.2",
+    "sql.js": "^1.14.2",
+    "typescript": "~6.0.3",
+    "vitest": "^3.2.4"
+  },
+  "main": "index.ts"
+}

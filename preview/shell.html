@@ -1,0 +1,179 @@
+<title>fais-moi preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* fais-moi is a light-only app; the preview paints its own palette on purpose. */
+  :root {
+    color-scheme: light;
+    --night: #2B0A0E; --wine: #5A0E18; --wine-line: #7A0F1B; --signal: #B0121F;
+    --blush: #F6C3CC; --blush-soft: #FBE3E7; --paper: #FCF3F1; --pollen: #E4E69A;
+    --sage: #2E6A64; --muted: #7D4B52; --border: #F1D3D8; --card: #FFFFFF;
+    --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--night); font: 15px/1.45 var(--sans); }
+  button, input, textarea, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  .page { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 56px; display: grid; gap: 20px; }
+  .masthead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+  .wordmark { font: 900 30px/1 var(--serif); color: var(--signal); letter-spacing: -0.5px; }
+  .masthead p { margin: 0; color: var(--muted); max-width: 60ch; }
+  .layout { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 900px) {
+    .layout { grid-template-columns: 390px minmax(0, 1fr); }
+    .phone-col { position: sticky; top: calc(16px + env(safe-area-inset-top, 0px)); }
+  }
+
+  /* Phone: the lock screen from design/Lock.dc.html */
+  .phone-col { display: grid; gap: 12px; }
+  .phone { position: relative; overflow: hidden; background: var(--wine); border-radius: 44px; aspect-ratio: 390 / 760; max-width: 100%; width: 100%; box-shadow: 0 24px 60px -30px rgba(43, 10, 14, 0.6); }
+  .phone svg.waves { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lock-time { position: absolute; left: 0; right: 0; top: 7%; display: grid; justify-items: center; gap: 2px; color: var(--blush-soft); }
+  .lock-time .date { font-weight: 600; font-size: 16px; }
+  .lock-time .clock { font: 600 84px/1 var(--sans); letter-spacing: -3px; font-variant-numeric: tabular-nums; }
+  .stack { position: absolute; left: 12px; right: 12px; bottom: 16px; top: 34%; display: flex; flex-direction: column-reverse; gap: 8px; overflow-y: auto; scrollbar-width: none; }
+  .stack::-webkit-scrollbar { display: none; }
+  .note { background: rgba(252, 243, 241, 0.95); border-radius: 22px; padding: 14px 14px 12px; display: grid; gap: 10px; flex-shrink: 0; }
+  .note.older { background: rgba(252, 243, 241, 0.82); }
+  .note-row { display: flex; gap: 12px; align-items: flex-start; }
+  .app-tile { width: 38px; height: 38px; flex-shrink: 0; border-radius: 10px; background: var(--signal); display: grid; place-items: center; font: 900 18px/1 var(--serif); color: var(--paper); }
+  .note-text { flex: 1; min-width: 0; display: grid; gap: 1px; }
+  .note-meta { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--muted); }
+  .note-meta b { font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .note-title { font-weight: 700; font-size: 15px; }
+  .note-body { font-size: 15px; line-height: 1.35; overflow-wrap: anywhere; }
+  .note-tag { font-size: 11px; font-weight: 600; color: var(--wine); background: var(--pollen); border-radius: 999px; padding: 1px 8px; justify-self: start; margin-top: 3px; }
+  .note-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .note-actions button { min-height: 44px; border-radius: 12px; border: 0; background: var(--blush); color: var(--night); font-weight: 600; font-size: 14px; }
+  .note-actions button.primary { background: var(--night); color: var(--paper); }
+  .lock-empty { color: var(--blush); text-align: center; font-size: 14px; margin: auto 24px 12px; }
+  .off-banner { background: var(--pollen); color: var(--night); border-radius: 16px; padding: 10px 14px; font-size: 14px; }
+
+  /* Clock controls under the phone */
+  .controls { display: grid; gap: 10px; background: var(--card); border: 1px solid var(--border); border-radius: 28px; padding: 16px; }
+  .controls h2 { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip-btn { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--blush-soft); font-weight: 600; font-size: 14px; }
+  .chip-btn.strong { background: var(--night); color: var(--paper); border-color: var(--night); }
+  .toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 600; font-size: 14px; }
+  .toggle input { width: 44px; height: 26px; accent-color: var(--sage); }
+
+  /* Panels */
+  .panels { display: grid; gap: 16px; min-width: 0; }
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 28px; padding: 20px; display: grid; gap: 14px; min-width: 0; }
+  .panel-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 12px; }
+  .panel h2 { margin: 0; font: 600 22px/1.2 var(--serif); text-wrap: balance; }
+  .panel .sub { color: var(--muted); font-size: 14px; margin: 0; }
+  .samples { display: flex; flex-wrap: wrap; gap: 8px; }
+  textarea { width: 100%; min-height: 190px; resize: vertical; border: 1px solid var(--border); border-radius: 16px; background: var(--paper); padding: 12px 14px; font: 13px/1.5 var(--mono); }
+  .row-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .btn { min-height: 44px; padding: 0 20px; border-radius: 999px; border: 0; background: var(--signal); color: #fff; font-weight: 600; }
+  .btn.secondary { background: var(--blush-soft); color: var(--wine); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .pill { display: inline-flex; align-items: center; min-height: 24px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .pill.format { background: var(--pollen); color: var(--night); }
+  .pill.ok, .pill.done { background: #DDEDEA; color: var(--sage); }
+  .pill.look, .pill.missed { background: var(--blush-soft); color: var(--signal); }
+  .pill.neutral, .pill.pending { background: var(--paper); color: var(--muted); border: 1px solid var(--border); }
+  .pill.snoozed, .pill.skipped { background: var(--blush); color: var(--wine); }
+  .pill.kind { background: var(--pollen); color: var(--night); }
+
+  .issues { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .issues li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
+  .list { display: grid; margin: 0; padding: 0; list-style: none; }
+  .list li { display: grid; grid-template-columns: minmax(78px, auto) minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--border); }
+  .list li:first-child { border-top: 0; }
+  .list .time { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+  .list .what { min-width: 0; }
+  .list .what b { display: block; }
+  .list .what span { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+  .list li.faded { opacity: 0.5; }
+  .list input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--signal); }
+  .empty { color: var(--muted); font-size: 14px; margin: 0; }
+  .meter { height: 8px; border-radius: 999px; background: var(--blush-soft); overflow: hidden; }
+  .meter span { display: block; height: 100%; background: var(--signal); }
+  .fixit { background: var(--paper); border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px; font-size: 14px; overflow-wrap: anywhere; }
+  .plan-row { display: grid; gap: 8px; padding: 12px 0; border-top: 1px solid var(--border); }
+  .plan-row:first-child { border-top: 0; }
+  .plan-row .top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; align-items: baseline; }
+  .plan-row .title { font-weight: 700; }
+  .plan-row .day { font: 600 15px/1 var(--serif); color: var(--wine); }
+  .small-btn { min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--paper); font-size: 13px; font-weight: 600; }
+  .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--night); color: var(--paper); padding: 10px 16px; border-radius: 999px; font-size: 14px; max-width: calc(100% - 32px); }
+  .foot { color: var(--muted); font-size: 13px; }
+  @media (prefers-reduced-motion: no-preference) { .note { animation: drop 0.25s ease-out; } }
+  @keyframes drop { from { transform: translateY(-6px); opacity: 0.6; } to { transform: none; opacity: 1; } }
+</style>
+
+<div class="page">
+  <header class="masthead">
+    <span class="wordmark">fais-moi.</span>
+    <p>A test bench for the app's real parser and scheduler, running in your browser. Move the clock forward to make notifs fire on the phone, then answer them. Nothing leaves this page.</p>
+  </header>
+
+  <div class="layout">
+    <div class="phone-col">
+      <div class="phone" aria-label="Phone lock screen">
+        <svg class="waves" viewBox="0 0 390 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#7A0F1B" stroke-width="40" stroke-linecap="round"><path d="M10 -40 C60 140 -40 280 10 400 S60 640 10 800"/><path d="M100 -40 C150 140 50 280 100 400 S150 640 100 800"/><path d="M190 -40 C240 140 140 280 190 400 S240 640 190 800"/><path d="M280 -40 C330 140 230 280 280 400 S330 640 280 800"/><path d="M370 -40 C420 140 320 280 370 400 S420 640 370 800"/></g></svg>
+        <div class="lock-time"><span class="date" id="lock-date"></span><span class="clock" id="lock-clock"></span></div>
+        <div class="stack" id="stack" aria-live="polite"></div>
+      </div>
+      <section class="controls" aria-labelledby="clock-h">
+        <h2 id="clock-h">Move the clock</h2>
+        <div class="chips" id="clock-buttons">
+          <button class="chip-btn strong" data-jump="next" id="jump-next">Next notif</button>
+          <button class="chip-btn" data-jump="10m">+10 min</button>
+          <button class="chip-btn" data-jump="1h">+1 hour</button>
+          <button class="chip-btn" data-jump="morning">Tomorrow 7:00</button>
+        </div>
+        <label class="toggle" for="perm">Notifications allowed<input type="checkbox" id="perm" checked></label>
+        <div class="off-banner" id="off-banner" hidden>Notifications are off, so nothing is scheduled. Plans stay as they are and come back when you turn them on.</div>
+      </section>
+    </div>
+
+    <div class="panels">
+      <section class="panel" aria-labelledby="paste-h">
+        <div class="panel-head">
+          <h2 id="paste-h">Paste a plan</h2>
+          <p class="sub">What ChatGPT gave you, messy is fine.</p>
+        </div>
+        <div class="samples" id="samples">
+          <button class="chip-btn" data-sample="quick">Quick test (fires in minutes)</button>
+          <button class="chip-btn" data-sample="wellness">30-day wellness plan</button>
+          <button class="chip-btn" data-sample="messy">Messy ChatGPT reply</button>
+          <button class="chip-btn" data-sample="cap">Over the daily limit</button>
+        </div>
+        <label for="plan-input" class="sub">Plan text</label>
+        <textarea id="plan-input" spellcheck="false"></textarea>
+        <div class="row-actions"><button class="btn" id="read">Read my plan</button><span id="format"></span></div>
+      </section>
+
+      <section class="panel" id="review" aria-labelledby="review-h" hidden></section>
+
+      <section class="panel" aria-labelledby="today-h">
+        <div class="panel-head"><h2 id="today-h">Today</h2><p class="sub" id="today-sub"></p></div>
+        <ul class="list" id="today"></ul>
+      </section>
+
+      <section class="panel" aria-labelledby="os-h">
+        <div class="panel-head"><h2 id="os-h">Handed to the phone</h2><p class="sub" id="os-sub"></p></div>
+        <div class="meter" aria-hidden="true"><span id="os-meter" style="width:0"></span></div>
+        <ul class="list" id="os"></ul>
+      </section>
+
+      <section class="panel" aria-labelledby="plans-h">
+        <div class="panel-head"><h2 id="plans-h">Plans</h2><button class="small-btn" id="reset">Start over</button></div>
+        <div id="plans"></div>
+      </section>
+
+      <p class="foot">Runs the same parser, database and scheduler code as the app, on SQLite compiled for the browser. Real notifications, the lock screen buttons when the app is closed, and Time Sensitive delivery still need an iPhone. Everything resets when you reload.</p>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+<!--APP-->

@@ -1,0 +1,10 @@
+{
+  “format”: “fais-moi/1”,
+  “plan”: “Sleep reset”,
+  “start”: “2026-09-29”,
+  “days”: 14,
+  “notifs”: [
+    { “id”: “screens-off”, “title”: “Screens off”, “icon”: “moon”, “at”: “21:45”, “on”: “daily”, “messages”: [“Phone on the charger — outside the bedroom.”, “Swap the scroll for a page of your book.”] },
+    { “id”: “sunlight”, “title”: “Morning light”, “icon”: “sun”, “at”: “07:00”, “on”: “daily”, “messages”: [“Ten minutes outside before coffee.”] }
+  ]
+}

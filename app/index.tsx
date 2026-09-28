@@ -68,7 +68,7 @@ export default function SchedulerCheck() {
   const [permission, setPermission] = useState('…');
   const [os, setOs] = useState<Notifications.NotificationRequest[]>([]);
   const [today, setToday] = useState<OccurrenceView[]>([]);
-  const [plans, setPlans] = useState<string[]>([]);
+  const [plans, setPlans] = useState<Array<{ id: number; label: string }>>([]);
   const [log, setLog] = useState('');
   const [busy, setBusy] = useState(false);
 
@@ -82,7 +82,7 @@ export default function SchedulerCheck() {
     };
     setOs(scheduled.sort((a, b) => time(a) - time(b)));
     setToday(await listOccurrencesOn(db, todayIn(tz)));
-    setPlans((await listPlans(db)).map((p) => `${p.title} · ${p.status}`));
+    setPlans((await listPlans(db)).map((p) => ({ id: p.id, label: `${p.title} · ${p.status}` })));
   }, []);
 
   useEffect(() => {
@@ -137,7 +137,7 @@ export default function SchedulerCheck() {
         </View>
 
         <Text style={s.h2}>Plans</Text>
-        {plans.length ? plans.map((p) => <Text key={p} style={s.row}>{p}</Text>) : <Text style={s.muted}>None yet.</Text>}
+        {plans.length ? plans.map((p) => <Text key={p.id} style={s.row}>{p.label}</Text>) : <Text style={s.muted}>None yet.</Text>}
 
         <Text style={s.h2}>Today</Text>
         {today.length ? (
